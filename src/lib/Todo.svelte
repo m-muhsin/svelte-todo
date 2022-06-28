@@ -6,6 +6,8 @@
     ];
     let currentId = 3;
 
+    $: items, currentId && saveInLocalStorage();
+
     let localItems = localStorage.getItem('svelte-todo-items');
     let localId = localStorage.getItem('svelte-todo-current-id');
 
@@ -20,39 +22,23 @@
         if (!event.target[0].value) {
             return
         }
-        
         items = [{
                 id: ++currentId,
                 content: event.target[0].value,
                 done: false
             },
             ...items,
-        ];
-
-        saveInLocalStorage(items, currentId);
-        
+        ];        
         event.target.reset();
     }
     
-    const saveInLocalStorage = (items, currentIdParam = currentId) => {
-        localStorage.setItem('svelte-todo-items', JSON.stringify(items));
+    const saveInLocalStorage = (itemsParam = items, currentIdParam = currentId) => {
+        localStorage.setItem('svelte-todo-items', JSON.stringify(itemsParam));
         localStorage.setItem('svelte-todo-current-id', String(currentIdParam));
     }
 
     const removeItem = (id) => {
         items = items.filter(item => (item.id !==id))
-        saveInLocalStorage(items);
-    }
-
-    const onCheck = (id) => {
-        const updatedItems = items.map(item => {
-        if (item.id === id) {
-                item.done = !item.done;
-            }
-            return item;
-        })
-        items = updatedItems;
-        saveInLocalStorage(items);
     }
 </script>
 
@@ -65,9 +51,9 @@
 {#each items as {id, done, content} (id)}
     <li>
         <label class:done={done}>
-            <input type="checkbox" checked={done} on:change|preventDefault={() => onCheck(id)} />
+            <input type="checkbox" bind:checked={done} />
         </label>
-        <span contenteditable="true">{content}</span>
+        <span bind:innerHTML={content} contenteditable="true">{content}</span>
         <button on:click={() => removeItem(id)} class="close">&times;</button>
     </li>
 {/each}
