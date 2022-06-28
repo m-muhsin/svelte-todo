@@ -19,16 +19,11 @@
         console.log('id',id)
         const updatedItems = items.map(item => {
             if (item.id === id) {
-                let opposite = Boolean(!item.done);
-                item.done = opposite;
-                console.log('item.done',item.done)
-                console.log('!item.done',!item.done)
+                item.done = !item.done;
             }
             return item;
         })
         items = updatedItems;
-        console.log('updatedItems',updatedItems)
-        console.log('items',items)
     }
 </script>
 
