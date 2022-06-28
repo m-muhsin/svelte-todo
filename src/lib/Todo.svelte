@@ -16,9 +16,8 @@
     }
 
     const onCheck = (id) => {
-        console.log('id',id)
         const updatedItems = items.map(item => {
-            if (item.id === id) {
+        if (item.id === id) {
                 item.done = !item.done;
             }
             return item;
@@ -36,7 +35,7 @@
 {#each items as {id, done, content}, index (id)}
     <li>
         <label class={done ? 'done' : ''}>
-            <input type="checkbox" bind:checked={done} on:change={() => onCheck(id)} />
+            <input type="checkbox" checked={done} on:change|preventDefault={() => onCheck(id)} />
             {content} 
         </label>
         <button on:click={() => removeItem(index)} class="close">&times;</button>
