@@ -64,7 +64,7 @@
 <ul>
 {#each items as {id, done, content} (id)}
     <li>
-        <label class={done ? 'done' : ''}>
+        <label class:done={done}>
             <input type="checkbox" checked={done} on:change|preventDefault={() => onCheck(id)} />
         </label>
         <span contenteditable="true">{content}</span>
