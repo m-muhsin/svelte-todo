@@ -4,9 +4,20 @@
         { id: 2, content: 'orange', done: true },
         { id: 3, content: 'grapes', done: false },
     ];
+    let currentId = 3;
 
     const formSubmit = (event) => {
-        items = [...items,event.target[0].value];
+        if (!event.target[0].value) {
+            return
+        }
+        
+        items = [...items, {
+                id: ++currentId,
+                content: event.target[0].value,
+                done: false
+            }
+        ];
+
         event.target.reset();
     }
 
