@@ -1,21 +1,28 @@
 <script>
-    let items = [
+    let placeholderItems = [
         { id: 1, content: 'apple', done: false },
         { id: 2, content: 'orange', done: true },
         { id: 3, content: 'grapes', done: false },
     ];
-    let currentId = 3;
+    let placeholderCurrentId = 3;
 
-    // Reactivity: save in localStorage when these variables are modified.
-    $: items, currentId && saveInLocalStorage();
+    let items = [];
+    let currentId = 0;
 
     // Fetch from localSorage and assigne to variables.
     let localItems = localStorage.getItem('svelte-todo-items');
     let localId = localStorage.getItem('svelte-todo-current-id');
-    if (localId && localItems && Array.isArray(localItems)) {
+
+    if (localId && localItems && Array.isArray(JSON.parse(localItems))) {
         items = JSON.parse(localItems)
         currentId = Number(localId)
+    } else {
+        items = placeholderItems;
+        currentId = placeholderCurrentId;
     }
+
+    // Reactivity: save in localStorage when these variables are modified.
+    $: items, currentId && saveInLocalStorage();
 
     // When the item is sent to be saved.
     const formSubmit = (event) => {
