@@ -11,19 +11,19 @@
             return
         }
         
-        items = [...items, {
+        items = [{
                 id: ++currentId,
                 content: event.target[0].value,
                 done: false
-            }
+            },
+            ...items,
         ];
 
         event.target.reset();
     }
 
     const removeItem = (index) => {
-        console.log(index)
-        items = items.filter((items, i) => (i !==index))
+        items = items.filter(item => (item.id !==index))
     }
 
     const onCheck = (id) => {
@@ -49,7 +49,7 @@
             <input type="checkbox" checked={done} on:change|preventDefault={() => onCheck(id)} />
             {content} 
         </label>
-        <button on:click={() => removeItem(index)} class="close">&times;</button>
+        <button on:click={() => removeItem(id)} class="close">&times;</button>
     </li>
 {/each}
 </ul>
