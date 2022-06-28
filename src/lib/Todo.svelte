@@ -6,18 +6,18 @@
     ];
     let currentId = 3;
 
+    // Reactivity: save in localStorage when these variables are modified.
     $: items, currentId && saveInLocalStorage();
 
+    // Fetch from localSorage and assigne to variables.
     let localItems = localStorage.getItem('svelte-todo-items');
     let localId = localStorage.getItem('svelte-todo-current-id');
-
-    if (localItems) {
+    if (localId && localItems && Array.isArray(localItems)) {
         items = JSON.parse(localItems)
-    }
-    if (localId) {
         currentId = Number(localId)
     }
 
+    // When the item is sent to be saved.
     const formSubmit = (event) => {
         if (!event.target[0].value) {
             return
