@@ -47,10 +47,14 @@
     const removeItem = (id) => {
         items = items.filter(item => (item.id !==id))
     }
+
+    const rmeoveDone = () => {
+        items = items.filter(item => !item.done)
+    }
 </script>
 
 <form on:submit|preventDefault={formSubmit}>
-    <input placeholder="Enter Item" />
+    <input class="input-item" placeholder="Enter Item" />
     <button type="submit">Add Item</button>
 </form>
 
@@ -66,8 +70,23 @@
 {/each}
 </ul>
 
+<button on:click={rmeoveDone}>Remove Done</button>
 
 <style>
+    .input-item {
+        height: 22px;
+        vertical-align: bottom;
+    }
+
+    button {
+        font-size: 1.125rem;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
     .close {
         background: unset;
         border: none;
