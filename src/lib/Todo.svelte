@@ -9,15 +9,21 @@
     let items = [];
     let currentId = 0;
 
-    // Fetch from localSorage and assigne to variables.
+    // get items from localStorage
     let localItems = localStorage.getItem('svelte-todo-items');
     let localId = localStorage.getItem('svelte-todo-current-id');
 
-    if (localId && localItems && Array.isArray(JSON.parse(localItems))) {
-        items = JSON.parse(localItems)
-        currentId = Number(localId)
-    } else {
+    if (localItems) {
+        items = JSON.parse(localItems);
+    }
+    if (!Array.isArray(items)) {
         items = placeholderItems;
+    }
+
+    if (localId) {
+        currentId = parseInt(localId);
+    }
+    if (currentId === 0) {
         currentId = placeholderCurrentId;
     }
 
@@ -38,7 +44,7 @@
         ];        
         event.target.reset();
     }
-    
+
     const saveInLocalStorage = (itemsParam = items, currentIdParam = currentId) => {
         localStorage.setItem('svelte-todo-items', JSON.stringify(itemsParam));
         localStorage.setItem('svelte-todo-current-id', String(currentIdParam));
@@ -48,7 +54,7 @@
         items = items.filter(item => (item.id !==id))
     }
 
-    const rmeoveDone = () => {
+    const removeDone = () => {
         items = items.filter(item => !item.done)
     }
 </script>
@@ -70,7 +76,7 @@
 {/each}
 </ul>
 
-<button on:click={rmeoveDone}>Remove Done</button>
+<button on:click={removeDone}>Remove Done</button>
 
 <style>
     .input-item {
